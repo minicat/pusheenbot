@@ -38,7 +38,7 @@ for png in pngs:
 
             # resize down for small version
             os.system('convert tmp/{n}.gif -resize {w}x{h} -unsharp 0x0.75+0.75+0.008 tmp/{n}_small.gif'.format(
-                n=segment_name, w=segment_w//2, h=segment_h//2))
+                n=segment_name, w=segment_w//1.75, h=segment_h//1.75))
 
     # make small version
     os.system('convert -delay 20 -dispose previous -loop 0 tmp/*_small.gif gif/%s_small.gif' % png.replace('.png', ''))
