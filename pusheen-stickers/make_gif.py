@@ -33,9 +33,11 @@ for png in pngs:
             # segment.show()
             segment_name = '%d-%d' % (i, j)
             segment.save('tmp/' + segment_name + '.png')
-            # os.system('convert tmp/{0}.png tmp/{0}.gif'.format(segment_name))
-    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*.png gif/%s.gif' % png.replace('.png', ''))
-    os.system('rm tmp/*.png')
+            # convert to gif, flattening to preserve smooth edges
+            os.system('convert -flatten tmp/{0}.png tmp/{0}.gif'.format(segment_name))
+    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*.gif gif/%s.gif' % png.replace('.png', ''))
+
+    os.system('rm tmp/*png && rm tmp/*gif')
 
 
 

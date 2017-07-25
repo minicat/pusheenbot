@@ -8,7 +8,6 @@ This repo contains two components of Pusheenbot:
 
 
 ## TODOs
-* "Smooth" edges on gifs (no need for transparent gifs)
 * Allow users to choose size of pusheen (small/large options) and reduce default size
 * Simple sentiment analysis for unrecognised words
 * Include food Pusheen stickers & "hard" gifs (>4 frames)
