@@ -14,10 +14,10 @@ pusheens = {
     'heart': ['heart', 'love', '<3'],
     'shock': ['shock', ':O', 'surprise'],
     'laptop': ['laptop', 'typing', 'work'],
-    'sushi': ['sushi', 'food', 'eat', 'yum', 'hungry'],
+    'sushi': ['sushi'],
     'fancy': ['fancy'],
     'sleep': ['sleep', 'zzz', 'tired'],
-    'bake': ['bake', 'baker', 'cooking', 'cook'],
+    'bake': ['bake', 'baker', 'baking', 'cooking', 'cook', 'baker cat'],
     'sit': ['sit', 'neutral'],
     'lying_down': ['lazy'],
     'writing': ['writing'],
@@ -26,8 +26,8 @@ pusheens = {
     'piano': ['piano', 'music'],
     'wat': ['wat', 'huh', 'surprised', 'surprise'],
     'excited': ['excited', ':D', 'yay', 'happy'],
-    'pizza': ['pizza', 'food', 'eat', 'hungry'],
-    'fast_food': ['food', 'eat', 'drink', 'hungry'],
+    'pizza': ['pizza'],
+    'fast_food': ['drink', 'burger'],
     'dj': ['dj', 'music'],
     'aww': ['aww', 'cute'],
     'workout': ['workout', 'gym', 'ddr'],
@@ -36,20 +36,36 @@ pusheens = {
     'birthday': ['birthday', 'cake', 'happy birthday'],
     'wink': ['wink', ';)', ';D'],
     'unicorn': ['unicorn'],
-    'ramen': ['ramen', 'food', 'eat', 'noodles', 'yum', 'hungry'],
+    'ramen': ['ramen', 'noodles'],
     'cool': ['cool', 'B)'],
     'box': ['box', 'dropbox'],
     'giggle': ['hehe', 'haha', 'giggle', 'lol'],
     'tantrum': ['tantrum', 'angry', 'D:<'],
     'cry': ['cry', 'sad', ':('],
     'yarn': ['yarn', 'knitting'],
-    'donut': ['donut', 'food', 'eat'],
+    'donut': ['donut'],
     'popcorn': ['popcorn'],
     'grumpy': ['grumpy', '):<', 'angry'],
     'blush': ['blush', 'embarassed', 'blushing'],
     'annoyed': ['annoyed', 'grumpy'],
-    'vroom': ['vroom', 'bike', 'travel']
+    'vroom': ['vroom', 'bike', 'travel'],
+    'bread': ['bake', 'baker', 'bread'],
+    'coffee': ['drink', 'coffee', 'tea', 'hot chocolate'],
+    'dough': ['stir', 'cook', 'cooking'],
+    'groceries': ['groceries', 'shopping'],
+    'helicopter': ['helicopter', 'fly', 'flying', 'plane'],
+    'milk': ['cheers', 'congrats', 'milk'],
+    'salad': ['salad'],
+    'sandwich': ['sandwich', 'lunchbox'],
+    'cupcake': ['cupcake'],
+    'cookie': ['cookie'],
+    'rice': ['rice'],
 }
+
+# give all the food pusheens some shared keywords
+for food_pusheen in ['sushi', 'pizza', 'fast_food', 'ramen', 'donut', 'popcorn', 'bread', 'coffee',
+                     'coffee', 'salad', 'sandwich', 'cupcake', 'cookie', 'rice']:
+    pusheens[food_pusheen] += ['food', 'eat', 'eating', 'yum', 'hungry']
 
 # construct the map the other way
 text_to_pusheens = defaultdict(list)
