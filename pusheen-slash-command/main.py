@@ -31,7 +31,7 @@ pusheens = {
     'dj': ['dj', 'music'],
     'aww': ['aww', 'cute'],
     'workout': ['workout', 'gym', 'ddr'],
-    'uhh': ['uhh', '...'],
+    'uhh': ['uhh', '...', u'\u2026'],  # slack condenses ...
     'wave': ['wave', 'hi', 'hello', 'hey'],
     'birthday': ['birthday', 'cake', 'happy birthday'],
     'wink': ['wink', ';)', ';D'],
@@ -73,10 +73,10 @@ class PusheenHandler(webapp2.RequestHandler):
         resp = {
             'response_type': 'in_channel',
             'attachments': [{
-                'text': 'Meow!', 
+                'text': 'Meow!',
                 'image_url': 'http://pusheen-slash-command.appspot.com/img/' + image_name + '.gif',
             }]
-        } 
+        }
         self.response.out.write(json.dumps(resp))
 
 app = webapp2.WSGIApplication([
