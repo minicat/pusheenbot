@@ -8,7 +8,6 @@ This repo contains two components of Pusheenbot:
 
 
 ## TODOs
-* Allow users to choose size of pusheen (small/large options) and reduce default size
 * Simple sentiment analysis for unrecognised words
 * Include more food stickers & "hard" gifs (>4 frames)
 * Include other Pusheens (from webcomic, LINE, etc)

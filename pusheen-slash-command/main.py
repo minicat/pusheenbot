@@ -77,6 +77,11 @@ for image, words in pusheens.iteritems():
 class PusheenHandler(webapp2.RequestHandler):
     def get(self):
         text = self.request.get("text").lower()
+        size_mod = '_small'  # return small pusheens by default
+
+        if '--big' in text:
+            text = text.replace('--big', '').strip()
+            size_mod = ''  # remove size mod
 
         if text and text in text_to_pusheens:
             images = text_to_pusheens[text]
@@ -90,7 +95,7 @@ class PusheenHandler(webapp2.RequestHandler):
             'response_type': 'in_channel',
             'attachments': [{
                 'text': 'Meow!',
-                'image_url': 'http://pusheen-slash-command.appspot.com/img/' + image_name + '.gif',
+                'image_url': 'http://pusheen-slash-command.appspot.com/img/' + image_name + size_mod + '.gif',
             }]
         }
         self.response.out.write(json.dumps(resp))
