@@ -35,6 +35,15 @@ for png in pngs:
             segment.save('tmp/' + segment_name + '.png')
             # convert to gif, flattening to preserve smooth edges
             os.system('convert -flatten tmp/{0}.png tmp/{0}.gif'.format(segment_name))
+
+            # resize down for small version
+            os.system('convert tmp/{n}.gif -resize {w}x{h} -unsharp 0x0.75+0.75+0.008 tmp/{n}_small.gif'.format(
+                n=segment_name, w=segment_w//2, h=segment_h//2))
+
+    # make small version
+    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*_small.gif gif/%s_small.gif' % png.replace('.png', ''))
+    os.system('rm tmp/*small.gif')
+    # make big version
     os.system('convert -delay 20 -dispose previous -loop 0 tmp/*.gif gif/%s.gif' % png.replace('.png', ''))
 
     os.system('rm tmp/*png && rm tmp/*gif')
