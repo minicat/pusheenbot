@@ -60,6 +60,9 @@ pusheens = {
     'cupcake': ['cupcake'],
     'cookie': ['cookie'],
     'rice': ['rice'],
+    'confused': ['confused', 'uhh', 'sweatdrop'],
+    'cough': ['cough', 'sick'],
+    'kiss': ['kiss'],
 }
 
 # give all the food pusheens some shared keywords
