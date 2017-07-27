@@ -9,5 +9,5 @@ This repo contains two components of Pusheenbot:
 
 ## TODOs
 * Simple sentiment analysis for unrecognised words
-* Include more food stickers & "hard" gifs (>4 frames)
+* Include more food stickers 
 * Include other Pusheens (from webcomic, LINE, etc)
