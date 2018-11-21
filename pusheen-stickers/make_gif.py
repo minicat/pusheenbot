@@ -68,6 +68,12 @@ print pusheen_pngs
 for png in pusheen_pngs:
     gifify(png, path_prefix='pusheen/')
 
+# make usagyuuun gifs
+usagyuuun_pngs = [f for f in os.listdir('usagyuuun') if f.endswith('.png')]
+print usagyuuun_pngs
+for png in usagyuuun_pngs:
+    gifify(png, path_prefix='usagyuuun/', delay=5)
+
 # cleanup
 os.system('rm -r tmp')
 
