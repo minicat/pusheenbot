@@ -6,15 +6,20 @@ if not os.path.exists('gif'):
 os.system('rm -r tmp')
 os.makedirs('tmp')
 
-def gifify(png, path_prefix='png/', n_w=2, n_h=2):
+def gifify(png, path_prefix='png/'):
     """
     Converts the png at the path within folder path_prefix, into small and large animated gifs.
-    n_w and n_h specify the number of divisions to split the png into for the gifs (width-wise and
-    height-wise)
+
+    The number of divisions to split the ping into (n_w, n_h, width-wise and height-wise) is read
+    out of the png name (ie image_w_h.png)
     """
     im = Image.open(path_prefix + png)
+    path_components = png.rstrip('.png').split('_')
+    n_w = int(path_components[-2])
+    n_h = int(path_components[-1])
+    final_name = '_'.join(path_components[:-2])
+
     # we want to split it into n_w * n_h equal segments
-    segments = []
     w, h = im.size
     segment_w = w/n_w
     segment_h = h/n_h
@@ -45,24 +50,18 @@ def gifify(png, path_prefix='png/', n_w=2, n_h=2):
                     n=segment_name, w=segment_w//1.75, h=segment_h//1.75))
 
     # make small version
-    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*_small.gif gif/%s_small.gif' % png.replace('.png', ''))
+    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*_small.gif gif/%s_small.gif' % final_name)
     os.system('rm tmp/*small.gif')
     # make big version
-    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*.gif gif/%s.gif' % png.replace('.png', ''))
+    os.system('convert -delay 20 -dispose previous -loop 0 tmp/*.gif gif/%s.gif' % final_name)
 
     os.system('rm tmp/*png && rm tmp/*gif')
 
-# make standard gifs
+# make pusheen gifs
 pngs = [f for f in os.listdir('png') if f.endswith('.png')]
 print pngs
 for png in pngs:
     gifify(png)
-
-# make hard gifs
-hard_pngs = [f for f in os.listdir('hard_png') if f.endswith('.png')]
-print hard_pngs
-for hard_png in hard_pngs:
-    gifify(hard_png, path_prefix='hard_png/', n_w=3, n_h=3)
 
 
 # cleanup
