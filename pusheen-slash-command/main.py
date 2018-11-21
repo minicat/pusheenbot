@@ -131,9 +131,13 @@ def reverse_map(sticker_to_words):
             word_to_stickers[word].append(image)
     return word_to_stickers
 
-sticker_set_to_map = {
-    'pusheen': reverse_map(pusheens),
-    'usagyuuun': reverse_map(usagyuuuns),
+stickers_to_words_by_set = {
+    'pusheen': pusheens,
+    'usagyuuun': usagyuuuns,
+}
+
+words_to_stickers_by_set = {
+    set_name: reverse_map(stickers) for set_name, stickers in stickers_to_words_by_set.iteritems()
 }
 
 class PusheenHandler(webapp2.RequestHandler):
@@ -150,13 +154,14 @@ class PusheenHandler(webapp2.RequestHandler):
             text = text.replace('--usagyuuun', '').strip()
             sticker_mod = 'usagyuuun'
 
-        sticker_set = sticker_set_to_map[sticker_mod]
+        sticker_set = words_to_stickers_by_set[sticker_mod]
+        sticker_names = stickers_to_words_by_set[sticker_mod]
 
         if text and text in sticker_set:
             images = sticker_set[text]
             image_name = images[random.randint(0, len(images) - 1)]
         else:
-            image_name = sticker_set.keys()[random.randint(0, len(sticker_set) - 1)]
+            image_name = sticker_names.keys()[random.randint(0, len(sticker_names) - 1)]
 
         # construct response
         self.response.content_type = 'application/json'
