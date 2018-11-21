@@ -70,35 +70,101 @@ for food_pusheen in ['sushi', 'pizza', 'fast_food', 'ramen', 'donut', 'popcorn',
                      'coffee', 'salad', 'sandwich', 'cupcake', 'cookie', 'rice']:
     pusheens[food_pusheen] += ['food', 'eat', 'eating', 'yum', 'hungry']
 
-# construct the map the other way
-text_to_pusheens = defaultdict(list)
-for image, words in pusheens.iteritems():
-    for word in words:
-        text_to_pusheens[word].append(image)
 
+# map to words that should trigger the usagyuuun
+usagyuuuns = {
+    'beer': ['beer', 'drink', 'drinking', 'drunk', 'soju'],
+    'boring': ['boring', 'bored'],
+    'carrot_roll': ['carrot', 'roll', 'rolling'],
+    'clap': ['clap', 'wave', 'hi', 'hello'],
+    'confetti': ['congrats', 'congratulations', 'confetti', 'nice'],
+    'cry': ['cry', 'sad', 'crying', ':('],
+    'cry_joy': ['happy tears'],
+    'dab': ['dab', 'dance', 'excited'],
+    'dead_kinda': ['dead', 'rip', 'ghost'],
+    'devil': ['devil', 'excited'],
+    'devil_dance': ['devil', 'hahaha', 'ha ha ha', 'laugh'],
+    'disco_carrot': ['disco carrot', 'carrot', 'tada'],
+    'dying': ['dead', 'rip'],
+    'exclaim': ['!', 'surprised', 'surprise'],
+    'fairy': ['fairy'],
+    'funky_dance': ['dance', 'funky dance', 'weird dance'],
+    'head_slam': ['head slam', 'headdesk', 'head desk', 'argh'],
+    'heart_circle': ['heart', 'love', 'heart circle'],
+    'heart_get': ['get heart', 'heart', 'love'],
+    'heart_give': ['give heart', 'heart', 'love'],
+    'hearts': ['heart', 'hearts', 'wave hearts', 'love'],
+    'jumping_jack': ['jumping jack', 'starjump', 'excited'],
+    'lets_go': ['lets go', "let's go", 'car'],
+    'long_rabbit': ['long', 'excited'],
+    'maracas': ['maracas', 'cheer'],
+    'muscle_man': ['muscle man', 'flexing', 'flex', 'gym', 'ddr'],
+    'no': ['no', 'noo', 'nooo', 'noooo', 'nooooo', 'noooooo', 'nooooooo'],
+    'omw': ['omw', 'on my way'],
+    'peek': ['peek'],
+    'pom_pom': ['pompom', 'pom pom', 'cheer'],
+    'punish': ['punish'],
+    'pushups': ['pushups', 'pushup', 'gym', 'ddr'],
+    'question': ['?', '??', '???', 'question'],
+    'rub_rub': ['hug', 'love', 'heart'],
+    'salute': ['salute'],
+    'shake_rabbit': ['shake'],
+    'sing_song': ['sing', 'singing', 'music', 'karaoke'],
+    'slap_ground': ['yes'],
+    'sonic_speed': ['fast', 'omw', 'on my way'],
+    'spin': ['spin'],
+    'squirm': ['squirm'],
+    'sweat': ['sweat', 'uh oh'],
+    'throw_up': ['congrats', 'congratulations', 'nice', 'throw up'],
+    'typing': ['typing', 'laptop'],
+    'uh_oh': ['uh oh'],
+    'up_lock': ['up lock', 'uplock'],
+    'what': ['what', 'what?'],
+    'zzzzzz': ['zzz', 'zzzz', 'zzzzz', 'zzzzzz', 'sleep'],
+}
+
+# helper to construct the map the other way
+def reverse_map(sticker_to_words):
+    word_to_stickers = defaultdict(list)
+    for image, words in sticker_to_words.iteritems():
+        for word in words:
+            word_to_stickers[word].append(image)
+    return word_to_stickers
+
+sticker_set_to_map = {
+    'pusheen': reverse_map(pusheens),
+    'usagyuuun': reverse_map(usagyuuuns),
+}
 
 class PusheenHandler(webapp2.RequestHandler):
     def get(self):
         text = self.request.get("text").lower()
         size_mod = '_small'  # return small pusheens by default
+        sticker_mod = 'pusheen'  # return pusheens by default (lol)
 
         if '--big' in text:
             text = text.replace('--big', '').strip()
             size_mod = ''  # remove size mod
 
-        if text and text in text_to_pusheens:
-            images = text_to_pusheens[text]
+        if '--usagyuuun' in text:
+            text = text.replace('--usagyuuun', '').strip()
+            sticker_mod = 'usagyuuun'
+
+        sticker_set = sticker_set_to_map[sticker_mod]
+
+        if text and text in sticker_set:
+            images = sticker_set[text]
             image_name = images[random.randint(0, len(images) - 1)]
         else:
-            image_name = pusheens.keys()[random.randint(0, len(pusheens) - 1)]
+            image_name = sticker_set.keys()[random.randint(0, len(sticker_set) - 1)]
 
         # construct response
         self.response.content_type = 'application/json'
         resp = {
             'response_type': 'in_channel',
             'attachments': [{
-                'text': 'Meow!',
-                'image_url': 'http://pusheen-slash-command.appspot.com/img/' + image_name + size_mod + '.gif',
+                'text': 'Meow!' if sticker_mod == 'pusheen' else '',
+                'image_url': 'http://pusheen-slash-command.appspot.com/img/' + sticker_mod + '/' + image_name + size_mod + '.gif',
             }]
         }
         self.response.out.write(json.dumps(resp))
