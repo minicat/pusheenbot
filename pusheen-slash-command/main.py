@@ -79,7 +79,7 @@ usagyuuuns = {
     'boring': ['boring', 'bored'],
     'bowing': ['bowing', 'bow'],
     'carrot_roll': ['carrot', 'roll', 'rolling'],
-    'cat': ['cat', 'meow'],
+    'cat': ['cat', 'meow', 'pusheen'],
     'clap': ['clap', 'clapping', 'wave', 'hi', 'hello'],
     'clap_two': ['clap', 'clapping', 'clap two'],
     'confetti': ['congrats', 'congratulations', 'confetti', 'nice'],
