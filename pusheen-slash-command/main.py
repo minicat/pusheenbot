@@ -136,7 +136,7 @@ usagyuuuns = {
     'slap_ground': ['yes'],
     'sonic_speed': ['fast', 'omw', 'on my way'],
     'spin': ['spin', 'spinning' 'twirl', 'pirouette'],
-    'spinning': ['spinning', 'spin', '...', 'in progress'],
+    'spinning': ['spinning', 'spin', 'in progress', '...', u'\u2026'],  # slack condenses ...
     'squirm': ['squirm'],
     'sweat': ['sweat', 'uh oh'],
     'throw_up': ['congrats', 'congratulations', 'nice', 'throw up'],
@@ -167,6 +167,10 @@ words_to_stickers_by_set = {
 class PusheenHandler(webapp2.RequestHandler):
     def get(self):
         text = self.request.get("text").lower()
+        if '--help' in text:
+            self.help()
+            return
+
         size_mod = '_small'  # return small pusheens by default
         sticker_mod = 'pusheen'  # return pusheens by default (lol)
 
@@ -194,6 +198,23 @@ class PusheenHandler(webapp2.RequestHandler):
             'attachments': [{
                 'text': 'Meow!' if sticker_mod == 'pusheen' else '',
                 'image_url': 'http://pusheen-slash-command.appspot.com/img/' + sticker_mod + '/' + image_name + size_mod + '.gif',
+            }]
+        }
+        self.response.out.write(json.dumps(resp))
+
+    def formatted_words_for_set(self, set_name):
+        return ' '.join([u'`{}`'.format(word) for word in sorted(words_to_stickers_by_set[set_name].keys())])
+
+    def help(self):
+        self.response.content_type = 'application/json'
+        resp = {
+            'response_type': 'ephemeral',
+            'attachments': [{
+                'text': 'Usage: `/pusheen [--big] [--usagyuuun] $TRIGGER_WORDS`'
+            }, {
+                'text': 'Pusheen trigger words:' + self.formatted_words_for_set('pusheen')
+            }, {
+                'text': 'Usagyuuun trigger words:' + self.formatted_words_for_set('usagyuuun')
             }]
         }
         self.response.out.write(json.dumps(resp))
